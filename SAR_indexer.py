@@ -21,12 +21,12 @@ def indexer(directory):
             aux = newsList[len(newsList)-1]
             for new in newsList:
                 if new != aux:
-                    docId = new.split('<DOCID>')[1].split('</DOCID>')[0]
+                    newId = new.split('<DOCID>')[1].split('</DOCID>')[0]
                     title = new.split('<TITLE>')[1].split('</TITLE>')[0]
                     text = new.split('<TEXT>')[1].split('</TEXT>')[0]
                     category = new.split('<CATEGORY>')[1].split('</CATEGORY>')[0]
                     date = new.split('<DATE>')[1].split('</DATE>')[0]
-                    dictNews[docId] = {'headline': title, 'text': text, 'category': category, 'date': date}
+                    dictNews[newId] = {'headline': title, 'text': text, 'category': category, 'date': date}
 
 if __name__ == "__main__":
     # if len(sys.argv) != 3:
