@@ -51,24 +51,25 @@ def indexer(directory, savePath):
                     posTerm = 0
 
                     for term in text:
-                        posTerm += 1
-                        if dictTerms[term] is None:
+
+                        try:
+                            if dictTerms[term] is not None:
+                                found = False
+                                for case in dictTerms[term]:
+                                    if case[0] == newsId:
+                                        case[1].append(posTerm)
+                                        found = True
+                                        break
+                                if not found:
+                                    dictTerms[term].append([newsId, [posTerm]])
+                        except KeyError:
                             dictTerms[term] = [[newsId, [posTerm]]]
 
-                        else:
-                            found = False
-                            for case in dictTerms[term]:
-                                if case[0] == newsId:
-                                    case[1].append(posTerm)
-                                    found = True
-                                    break
-                            if not found:
-                                dictTerms[term].append([newsId, [posTerm]])
-
-            saver._dump((dictDocs, dictNews, dictTerms), savePath, None, True)
+            saver._dump((dictDocs, dictNews, dictTerms), open(savePath, "wb"))
 
 
 if len(sys.argv) != 3:
     print("CORRECT WAY TO START: python SAR_indexer.py <news directory> <file to save index>\n")
 else:
     indexer(sys.argv[1], sys.argv[2])
+
