@@ -27,7 +27,7 @@ def indexer(directory, savePath):
             file = open(fileName, 'r')
             docContent = file.read()
             docId = fileName.split('.')[0].split('\\')[1]
-            dictDocs[docId] = docContent
+
             newsList = docContent.split('</DOC>')
             finalSpace = newsList[len(newsList) - 1]
 
@@ -36,13 +36,16 @@ def indexer(directory, savePath):
             for news in newsList:
 
                 if news != finalSpace:
-                    posNews += 1
                     newsId = news.split('<DOCID>')[1].split('</DOCID>')[0]
-                    # title = news.split('<TITLE>')[1].split('</TITLE>')[0]
+                    title = news.split('<TITLE>')[1].split('</TITLE>')[0]
                     text = news.split('<TEXT>')[1].split('</TEXT>')[0]
-                    # category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0]
-                    # date = news.split('<DATE>')[1].split('</DATE>')[0]
-                    # dictNews[newsId] = {'headline': title, 'text': text, 'category': category, 'date': date}
+                    category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0]
+                    date = news.split('<DATE>')[1].split('</DATE>')[0]
+                    try:
+                        if dictDocs[docId] is not None:
+                            dictDocs[docId].append({'title': title, 'text': text, 'category': category, 'date': date})
+                    except KeyError:
+                        dictDocs[docId] = [{'title': title, 'text': text, 'category': category, 'date': date}]
                     dictNews[newsId] = (docId, posNews)
                     text = clean_news(text).replace("\n", " ")
                     text = text.replace("\t", " ")
@@ -64,6 +67,7 @@ def indexer(directory, savePath):
                                     dictTerms[term].append([newsId, [posTerm]])
                         except KeyError:
                             dictTerms[term] = [[newsId, [posTerm]]]
+                    posNews += 1
 
             saver._dump((dictDocs, dictNews, dictTerms), open(savePath, "wb"))
 
