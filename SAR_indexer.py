@@ -8,6 +8,9 @@ clean_re = re.compile('\W+')
 dictDocs = {}
 dictNews = {}
 dictTerms = {}
+dictTitle = {}
+dictCategory = {}
+dictDate = {}
 
 
 def clean_news(text):
@@ -26,7 +29,7 @@ def indexer(directory, savePath):
 
             file = open(fileName, 'r')
             docContent = file.read()
-            docId = fileName.split('.')[0].split('\\')[1]
+            docID = fileName.split('.')[0].split('\\')[1]
 
             newsList = docContent.split('</DOC>')
             finalSpace = newsList[len(newsList) - 1]
@@ -36,17 +39,44 @@ def indexer(directory, savePath):
             for news in newsList:
 
                 if news != finalSpace:
-                    newsId = news.split('<DOCID>')[1].split('</DOCID>')[0]
+                    newsID = news.split('<DOCID>')[1].split('</DOCID>')[0]
                     title = news.split('<TITLE>')[1].split('</TITLE>')[0]
                     text = news.split('<TEXT>')[1].split('</TEXT>')[0]
-                    category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0]
+                    category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0].lower()
                     date = news.split('<DATE>')[1].split('</DATE>')[0]
+
+                    title = clean_news(title).replace("\n", " ")
+                    title = title.replace("\t", " ")
+                    title = title.split(" ")
+
+                    for term in title:
+                        term = term.lower()
+                        try:
+                            if dictTitle[term] is not None:
+                                dictTitle[term].append(newsID)
+                        except KeyError:
+                            dictTitle[term] = [newsID]
+
                     try:
-                        if dictDocs[docId] is not None:
-                            dictDocs[docId].append({'title': title, 'text': text, 'category': category, 'date': date})
+                        if dictCategory[term] is not None:
+                            dictCategory[term].append(newsID)
                     except KeyError:
-                        dictDocs[docId] = [{'title': title, 'text': text, 'category': category, 'date': date}]
-                    dictNews[newsId] = (docId, posNews)
+                        dictCategory[term] = [newsID]
+
+                    try:
+                        if dictDate[date] is not None:
+                            dictDate[date].append(newsID)
+                    except KeyError:
+                        dictDate[date] = [newsID]
+
+                    try:
+                        if dictDocs[docID] is not None:
+                            dictDocs[docID].append({'headline': title, 'text': text, 'category': category, 'date': date})
+                    except KeyError:
+                        dictDocs[docID] = [{'headline': title, 'text': text, 'category': category, 'date': date}]
+
+                    dictNews[newsID] = (docID, posNews)
+
                     text = clean_news(text).replace("\n", " ")
                     text = text.replace("\t", " ")
                     text = text.split(" ")
@@ -54,22 +84,22 @@ def indexer(directory, savePath):
                     posTerm = 0
 
                     for term in text:
-
+                        term = term.lower()
                         try:
                             if dictTerms[term] is not None:
                                 found = False
                                 for case in dictTerms[term]:
-                                    if case[0] == newsId:
+                                    if case[0] == newsID:
                                         case[1].append(posTerm)
                                         found = True
                                         break
                                 if not found:
-                                    dictTerms[term].append([newsId, [posTerm]])
+                                    dictTerms[term].append([newsID, [posTerm]])
                         except KeyError:
-                            dictTerms[term] = [[newsId, [posTerm]]]
+                            dictTerms[term] = [[newsID, [posTerm]]]
                     posNews += 1
 
-            saver._dump((dictDocs, dictNews, dictTerms), open(savePath, "wb"))
+            saver._dump((dictDocs, dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
 
 
 if len(sys.argv) != 3:

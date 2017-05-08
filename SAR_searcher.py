@@ -11,13 +11,57 @@ def find_index(index_dir):
 
 
 def searcher(query, index):
+    provisionalQueryList = []
+    for parameter in query:
+        for word in parameter:
+            header = ''
+            searchText = ''
+            headerComplete = False
+            for letter in word:
+                if not letter.isalpha() or letter != ':':
+                    print("The word" + word + "is not valid for the search.\n")
+                    return
+                else:
+                    if letter != ':':
+                        if headerComplete:
+                            header += letter
+                        else:
+                            searchText += letter
+                    else:
+                        headerComplete = True
+            if not headerComplete and header != '':
+                provisionalQueryList.append('text', header)
+            else:
+                if header in ['headline', 'text', 'category', 'date']:
+                    provisionalQueryList.append((header, searchText))
+                else:
+                    print("The parameter" + header + 'is not valid.\n')
+                    return
+                if searchText == '':
+                    print('The search cannot be blank.\n')
+                    return
+    countList = {'headline': 0, 'text': 0, 'category': 0, 'date': 0}
+    for param in provisionalQueryList:
+        countList[param[0]] += 1
+
+    for count in countList:
+        if count[1] > 1:
+            print('There are more than one' + count[0] + '.\n')
+            return
+
+    queryList = {}
+    for query in provisionalQueryList:
+        queryList[query[0]] = query[1]
+
     dictDocs = index[0]
     dictNews = index[1]
     dictTerms = index[2]
+    dictTitle = index[3]
+    dictCategory = index[4]
+    dictDate = index[5]
 
-    resultNews = dictTerms[query]
 
-    print("The query " + query + "is in the next news:\n")
+    print("The query " + query[0] + "is in the next news:\n")
 
     if len(resultNews) < 3:
         for result in resultNews:
@@ -30,7 +74,7 @@ def searcher(query, index):
             newsDoc = dictDocs[docID]
             newsContent = newsDoc[posNew]
 
-            title = newsContent['title']
+            title = newsContent['headline']
             text = newsContent['text']
 
             print(title + '\n' + text + '\n')
@@ -46,14 +90,31 @@ def searcher(query, index):
             newsDoc = dictDocs[docID]
             newsContent = newsDoc[posNew]
 
-            title = newsContent['title']
-
-            for position in result
+            title = newsContent['headline']
             text = newsContent['text']
 
-            print(title + '\n' + text + '\n')
+            positionTerm = result[1]
 
+            print(title + '\n')
 
+            for position in positionTerm:
+                textPos = text.split()
+                print(textPos[max(0, position-10):min(position+10, len(text)-1)] + "\n\n")
+
+    else:
+        for result in resultNews:
+            newsID = result[0]
+
+            resultDoc = dictNews[newsID]
+            docID = resultDoc[0]
+            posNew = resultDoc[1]
+
+            newsDoc = dictDocs[docID]
+            newsContent = newsDoc[posNew]
+
+            title = newsContent['headline']
+
+            print(title + '\n')
 
 if len(sys.argv) != 2:
     print("CORRECT WAY TO START: python SAR_searcher.py <index directory>\n")
@@ -64,10 +125,5 @@ else:
 
     query = "begin"
     while query != "":
-        query = input("What do you want to search? \n")
-
-        if query.isalpha():
-            searcher(query.lower(), index)
-
-        else:
-            print("Anything but letters are not allowed\n")
+        query = input("What do you want to search? \n").split()
+        searcher(query, index)
