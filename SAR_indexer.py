@@ -2,6 +2,7 @@ import sys
 import glob
 import re
 import pickle as saver
+import time
 
 clean_re = re.compile('\W+')
 
@@ -19,9 +20,11 @@ def clean_news(text):
 
 
 def indexer(directory, savePath):
+    start_time = time.time()
+
     fileList = glob.glob(directory + "/*.sgml")
 
-    if fileList == []:
+    if not fileList:
         print("There is not such a directory")
 
     else:
@@ -45,61 +48,42 @@ def indexer(directory, savePath):
                     category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0].lower()
                     date = news.split('<DATE>')[1].split('</DATE>')[0]
 
-                    title = clean_news(title).replace("\n", " ")
-                    title = title.replace("\t", " ")
-                    title = title.split(" ")
+                    title = re.findall("\w+", title.lower())
 
                     for term in title:
-                        term = term.lower()
-                        try:
-                            if dictTitle[term] is not None:
-                                dictTitle[term].append(newsID)
-                        except KeyError:
-                            dictTitle[term] = [newsID]
+                        postList = dictTitle.get(term, [])
+                        postList.append(newsID)
+                        dictTitle[term] = postList
 
-                    try:
-                        if dictCategory[term] is not None:
-                            dictCategory[term].append(newsID)
-                    except KeyError:
-                        dictCategory[term] = [newsID]
+                    postList = dictCategory.get(category, [])
+                    postList.append(newsID)
+                    dictCategory[category] = postList
 
-                    try:
-                        if dictDate[date] is not None:
-                            dictDate[date].append(newsID)
-                    except KeyError:
-                        dictDate[date] = [newsID]
+                    postList = dictDate.get(date, [])
+                    postList.append(newsID)
+                    dictDate[date] = postList
 
-                    try:
-                        if dictDocs[docID] is not None:
-                            dictDocs[docID].append({'headline': title, 'text': text, 'category': category, 'date': date})
-                    except KeyError:
-                        dictDocs[docID] = [{'headline': title, 'text': text, 'category': category, 'date': date}]
+                    postList = dictDocs.get(docID, [])
+                    postList.append({'headline': title, 'text': text, 'category': category, 'date': date})
+                    dictDocs[docID] = postList
 
                     dictNews[newsID] = (docID, posNews)
 
-                    text = clean_news(text).replace("\n", " ")
-                    text = text.replace("\t", " ")
-                    text = text.split(" ")
+                    text = re.findall("\w+", text.lower())
 
                     posTerm = 0
 
                     for term in text:
-                        term = term.lower()
-                        try:
-                            if dictTerms[term] is not None:
-                                found = False
-                                for case in dictTerms[term]:
-                                    if case[0] == newsID:
-                                        case[1].append(posTerm)
-                                        found = True
-                                        break
-                                if not found:
-                                    dictTerms[term].append([newsID, [posTerm]])
-                        except KeyError:
-                            dictTerms[term] = [[newsID, [posTerm]]]
+                        dictAux = dictTerms.get(term, {})
+                        postList = dictAux.get(newsID, [])
+                        postList.append(posTerm)
+                        dictAux[newsID] = postList
+                        dictTerms[term] = dictAux
+                        posTerm += 1
                     posNews += 1
 
-            saver._dump((dictDocs, dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
+            saver.dump((dictDocs, dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 
 if len(sys.argv) != 3:
