@@ -3,8 +3,7 @@ import glob
 import re
 import pickle as saver
 import time
-
-clean_re = re.compile('\W+')
+import codecs
 
 dictDocs = {}
 dictNews = {}
@@ -12,11 +11,6 @@ dictTerms = {}
 dictTitle = {}
 dictCategory = {}
 dictDate = {}
-
-
-def clean_news(text):
-    text = clean_re.sub(' ', text).lower()
-    return text
 
 
 def indexer(directory, savePath):
@@ -30,9 +24,9 @@ def indexer(directory, savePath):
     else:
         for fileName in fileList:
 
-            file = open(fileName, 'r')
+            file = codecs.open(fileName, 'r', 'utf-8')
             docContent = file.read()
-            docID = fileName.split('.')[0].split('\\')[1]
+            docID = fileName.split('.')[0].split('\\')[2]
 
             newsList = docContent.split('</DOC>')
             finalSpace = newsList[len(newsList) - 1]
@@ -48,14 +42,7 @@ def indexer(directory, savePath):
                     category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0].lower()
                     date = news.split('<DATE>')[1].split('</DATE>')[0]
 
-                    title = re.findall("\w+", title.lower())
-
-                    for term in title:
-                        postList = dictTitle.get(term, [])
-                        postList.append(newsID)
-                        dictTitle[term] = postList
-
-                    postList = dictCategory.get(category, [])
+                    postList = dictCategory.get(category.lower(), [])
                     postList.append(newsID)
                     dictCategory[category] = postList
 
@@ -66,6 +53,14 @@ def indexer(directory, savePath):
                     postList = dictDocs.get(docID, [])
                     postList.append({'headline': title, 'text': text, 'category': category, 'date': date})
                     dictDocs[docID] = postList
+
+                    title = re.findall("\w+", title.lower())
+
+                    for term in title:
+                        postList = dictTitle.get(term, [])
+                        if newsID not in postList:
+                            postList.append(newsID)
+                        dictTitle[term] = postList
 
                     dictNews[newsID] = (docID, posNews)
 
