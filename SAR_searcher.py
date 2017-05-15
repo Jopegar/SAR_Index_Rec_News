@@ -164,7 +164,6 @@ def searcher(query):
                     print("The term %s is not in a news.\n" % partQuery)
                     return
 
-    # now we are going to process the NOT query
     while "NOT" in query:
         currentIndex = query.index("NOT")
         newsTerm = query[currentIndex + 1]
@@ -172,13 +171,6 @@ def searcher(query):
         query[currentIndex] = NotASearch(newsTerm)
 
         del query[currentIndex + 1]
-
-    if len(query) > 1:
-        for partQuery in query:
-            currentIndex = query.index(partQuery)
-            if isinstance(query[currentIndex], list) and currentIndex < len(query) - 1 and isinstance(query[currentIndex + 1], list):
-                query[currentIndex] = AAndBSearch(query[currentIndex], query[currentIndex + 1])
-                del query[currentIndex + 1]
 
     index = 0
     while index < len(query):
@@ -259,6 +251,8 @@ def printResult(resultNews):
 
             print(title + '\n')
 
+    print(len(resultNews))
+
 if len(sys.argv) != 2:
     print("CORRECT WAY TO START: python SAR_searcher.py <index directory>\n")
 else:
@@ -276,11 +270,12 @@ else:
     query = "begin"
     while query != "":
         query = input("What do you want to search? (You can know the differents forms of the query if you input ""+info+"")(if you want to exit, type ""+exit+"")\n")
+        termSearch = []
         if '+info+' in query:
             print("The diferent types of query you can do is: \n\t"
-                  "1. term -> search the news where term is\n\t"
+                  "1. term -> search the news where ""term"" is\n\t"
                   "2. headline:term text:term category:term date:term -> advanced search\n\t"
-                  "3. term AND term, term OR term and NOT term or a mix\n\t")
+                  "3. term AND term, term OR term, NOT term or a mix\n\t")
 
         elif '+exit+' in query:
             exit(0)
