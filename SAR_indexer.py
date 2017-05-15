@@ -1,11 +1,10 @@
 import sys
-import glob
 import re
 import pickle as saver
 import time
 import codecs
+import os
 
-dictDocs = {}
 dictNews = {}
 dictTerms = {}
 dictTitle = {}
@@ -14,70 +13,94 @@ dictDate = {}
 
 
 def indexer(directory, savePath):
+
     start_time = time.time()
 
-    fileList = glob.glob(directory + "/*.sgml")
+    for (path, names, fileList) in os.walk(directory):
 
-    if not fileList:
-        print("There is not such a directory")
+        pathFiles = path + "/"
+        print(pathFiles)
 
-    else:
-        for fileName in fileList:
+        if not fileList:
+            print("There is not such a directory")
 
-            file = codecs.open(fileName, 'r', 'utf-8')
-            docContent = file.read()
-            docID = fileName.split('.')[0].split('\\')[2]
+        else:
+            for fileName in fileList:
+                docID = fileName.split('.')[0]
+                fileName = path + "/" + fileName
+                file = codecs.open(fileName, 'r', 'utf-8')
+                docContent = file.read()
 
-            newsList = docContent.split('</DOC>')
-            finalSpace = newsList[len(newsList) - 1]
+                newsList = docContent.split('</DOC>')
+                finalSpace = newsList[len(newsList) - 1]
 
-            posNews = 0
+                posNews = 0
 
-            for news in newsList:
+                for news in newsList:
 
-                if news != finalSpace:
-                    newsID = news.split('<DOCID>')[1].split('</DOCID>')[0]
-                    title = news.split('<TITLE>')[1].split('</TITLE>')[0]
-                    text = news.split('<TEXT>')[1].split('</TEXT>')[0]
-                    category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0].lower()
-                    date = news.split('<DATE>')[1].split('</DATE>')[0]
+                    if news != finalSpace:
+                        newsID = news.split('<DOCID>')[1].split('</DOCID>')[0]
+                        title = news.split('<TITLE>')[1].split('</TITLE>')[0]
+                        text = news.split('<TEXT>')[1].split('</TEXT>')[0]
+                        category = news.split('<CATEGORY>')[1].split('</CATEGORY>')[0].lower()
+                        date = news.split('<DATE>')[1].split('</DATE>')[0]
 
-                    postList = dictCategory.get(category.lower(), [])
-                    postList.append(newsID)
-                    dictCategory[category] = postList
+                        postList = dictCategory.get(category.lower(), [])
+                        postList.append(newsID)
+                        dictCategory[category] = postList
 
-                    postList = dictDate.get(date, [])
-                    postList.append(newsID)
-                    dictDate[date] = postList
+                        postList = dictDate.get(date, [])
+                        postList.append(newsID)
+                        dictDate[date] = postList
 
-                    postList = dictDocs.get(docID, [])
-                    postList.append({'headline': title, 'text': text, 'category': category, 'date': date})
-                    dictDocs[docID] = postList
+                        title = re.findall("\w+", title.lower())
 
-                    title = re.findall("\w+", title.lower())
+                        posTerm = 0
 
-                    for term in title:
-                        postList = dictTitle.get(term, [])
-                        if newsID not in postList:
-                            postList.append(newsID)
-                        dictTitle[term] = postList
+                        for term in title:
+                            postInver = dictTitle.get(term, [])
 
-                    dictNews[newsID] = (docID, posNews)
+                            positions = []
 
-                    text = re.findall("\w+", text.lower())
+                            if len(postInver) > 0:
+                                postList = postInver[-1]
+                                if postList[0] == newsID:
+                                    postList[1].append(posTerm)
+                                    posTerm += 1
+                                    continue
 
-                    posTerm = 0
+                            positions.append(posTerm)
+                            postInver.append([newsID, positions])
+                            dictTitle[term] = postInver
+                            posTerm += 1
 
-                    for term in text:
-                        dictAux = dictTerms.get(term, {})
-                        postList = dictAux.get(newsID, [])
-                        postList.append(posTerm)
-                        dictAux[newsID] = postList
-                        dictTerms[term] = dictAux
-                        posTerm += 1
-                    posNews += 1
+                        dictNews[newsID] = (docID, posNews)
 
-            saver.dump((dictDocs, dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
+                        text = re.findall("\w+", text.lower())
+
+                        posTerm = 0
+
+                        for term in text:
+                            postInver = dictTerms.get(term, [])
+
+                            positions = []
+
+                            if len(postInver) > 0:
+                                postList = postInver[-1]
+                                if postList[0] == newsID:
+                                    postList[1].append(posTerm)
+                                    posTerm += 1
+                                    continue
+
+                            positions.append(posTerm)
+                            postInver.append([newsID, positions])
+                            dictTerms[term] = postInver
+                            posTerm += 1
+                        posNews += 1
+
+    for (pathSaver, names, fileList) in os.walk(savePath):
+        savePath = pathSaver + "/" + fileList[0]
+    saver.dump((pathFiles, dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

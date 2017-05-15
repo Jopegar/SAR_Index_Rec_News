@@ -14,9 +14,9 @@ dictDocs = {}
 def find_index(index_dir):
     try:
         return loader.load(open(index_dir, "rb"))
-    except loader.PickleError:
+    except FileNotFoundError:
         print("There is not such a directory")
-        return None
+        exit(0)
 
 
 def AAndBSearch(newsTermOne, newsTermTwo):
@@ -109,12 +109,17 @@ def searcher(query):
 
     # we are going to process the advanced and the normal query first
     for partQuery in query:
+
+        # Check if the word we are precessing is an "AND", "OR" os "NOT". If it isn't, we continue
         if partQuery not in condQuery:
             currentIndex = query.index(partQuery)
+
+            # Check if it is a term with advanced searching
             if ":" in partQuery:
                 header = partQuery.split(":")[0]
                 term = partQuery.split(":")[1].lower()
 
+                # we check if term is alphabetical, if it is, we process it depends on the header
                 if term.isalpha():
                     if "headline" in header:
                         if term in dictTitle:
@@ -135,12 +140,14 @@ def searcher(query):
                             newsTerm = []
                             for newID, value in dictTerms[term].items():
                                 newsTerm.append(newID)
+                            # list(dictTerms[partQuery].keys()) todo
                             query[currentIndex] = newsTerm
                             termSearch.append(term)
                         else:
                             print("The term %s is not in a news.\n" % term)
                             return
 
+                # if the term is not alphabetical, could be a number, so could be a date
                 else:
                     if "date" in header:
                         if term in dictDate:
@@ -148,7 +155,7 @@ def searcher(query):
                         else:
                             print("In the date %s there are any news.\n" % term)
                             return
-
+                    # if this not alphabetical term is not in the dictionary of dates
                     else:
                         print("The word " + term + " is not valid for the search. Please just alphanumerics terms\n")
                         return
@@ -160,6 +167,7 @@ def searcher(query):
                         newsTerm.append(newID)
                     query[currentIndex] = newsTerm
                     termSearch.append(partQuery)
+                    # list(dictTerms[partQuery].keys()) todo
                 else:
                     print("The term %s is not in a news.\n" % partQuery)
                     return
@@ -199,6 +207,7 @@ def searcher(query):
 
 
 def printResult(resultNews):
+    print(len(resultNews))
 
     if len(resultNews) < 3:
         for newsID in resultNews:
@@ -250,8 +259,8 @@ def printResult(resultNews):
             title = newsContent['headline']
 
             print(title + '\n')
-
     print(len(resultNews))
+
 
 if len(sys.argv) != 2:
     print("CORRECT WAY TO START: python SAR_searcher.py <index directory>\n")
@@ -260,7 +269,7 @@ else:
     if index is None:
         exit(0)
     else:
-        dictDocs = index[0]
+        pathFiles = index[0]
         dictNews = index[1]
         dictTerms = index[2]
         dictTitle = index[3]
