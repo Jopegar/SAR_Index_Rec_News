@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="90860fa2-1437-4eb6-ad9f-148220ed8b43" name="Default" comment="Eliminate dictDocs">
+    <list default="true" id="90860fa2-1437-4eb6-ad9f-148220ed8b43" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SAR_indexer.py" afterPath="$PROJECT_DIR$/SAR_indexer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SAR_searcher.py" afterPath="$PROJECT_DIR$/SAR_searcher.py" />
@@ -19,11 +19,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SAR_searcher.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SAR_searcher.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="271" column="17" lean-forward="false" selection-start-line="271" selection-start-column="17" selection-end-line="271" selection-end-column="17" />
+            <state relative-caret-position="776">
+              <caret line="267" column="35" lean-forward="true" selection-start-line="267" selection-start-column="35" selection-end-line="267" selection-end-column="35" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -31,11 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SAR_indexer.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SAR_indexer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="130">
+              <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -70,8 +70,8 @@
       <list>
         <option value="$PROJECT_DIR$/SAR_searcher - copia.py" />
         <option value="$PROJECT_DIR$/searcher.py" />
-        <option value="$PROJECT_DIR$/SAR_searcher.py" />
         <option value="$PROJECT_DIR$/SAR_indexer.py" />
+        <option value="$PROJECT_DIR$/SAR_searcher.py" />
       </list>
     </option>
   </component>
@@ -390,12 +390,18 @@
       <option name="project" value="LOCAL" />
       <updated>1494872263275</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher">
+      <created>1494888767187</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1494888767187</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10394456" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -405,7 +411,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23293608" sideWeight="0.4978678" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23293608" sideWeight="0.4978678" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -433,7 +439,8 @@
     <MESSAGE value="Modify part 1 to do it more efficiently" />
     <MESSAGE value="END OF THE PROYECT" />
     <MESSAGE value="Corrected some errors" />
-    <option name="LAST_COMMIT_MESSAGE" value="Corrected some errors" />
+    <MESSAGE value="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher" />
+    <option name="LAST_COMMIT_MESSAGE" value="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -729,20 +736,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
+    <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="271" column="17" lean-forward="false" selection-start-line="271" selection-start-column="17" selection-end-line="271" selection-end-column="17" />
+        <state relative-caret-position="130">
+          <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
+    <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        <state relative-caret-position="776">
+          <caret line="267" column="35" lean-forward="true" selection-start-line="267" selection-start-column="35" selection-end-line="267" selection-end-column="35" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

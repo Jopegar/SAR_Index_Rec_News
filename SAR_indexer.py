@@ -18,16 +18,14 @@ def indexer(directory, savePath):
 
     for (path, names, fileList) in os.walk(directory):
 
-        pathFiles = path + "/"
-        print(pathFiles)
-
         if not fileList:
             print("There is not such a directory")
 
         else:
             for fileName in fileList:
-                docID = fileName.split('.')[0]
+                # docID = fileName.split('.')[0]
                 fileName = path + "/" + fileName
+                print(fileName)
                 file = codecs.open(fileName, 'r', 'utf-8')
                 docContent = file.read()
 
@@ -74,7 +72,7 @@ def indexer(directory, savePath):
                             dictTitle[term] = postInver
                             posTerm += 1
 
-                        dictNews[newsID] = (docID, posNews)
+                        dictNews[newsID] = (fileName, posNews)
 
                         text = re.findall("\w+", text.lower())
 
@@ -100,7 +98,7 @@ def indexer(directory, savePath):
 
     for (pathSaver, names, fileList) in os.walk(savePath):
         savePath = pathSaver + "/" + fileList[0]
-    saver.dump((pathFiles, dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
+    saver.dump((dictNews, dictTerms, dictTitle, dictCategory, dictDate), open(savePath, "wb"))
     print("--- %s seconds ---" % (time.time() - start_time))
 
 

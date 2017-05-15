@@ -269,12 +269,11 @@ else:
     if index is None:
         exit(0)
     else:
-        pathFiles = index[0]
-        dictNews = index[1]
-        dictTerms = index[2]
-        dictTitle = index[3]
-        dictCategory = index[4]
-        dictDate = index[5]
+        dictNews = index[0]
+        dictTerms = index[1]
+        dictTitle = index[2]
+        dictCategory = index[2]
+        dictDate = index[4]
 
     query = "begin"
     while query != "":
