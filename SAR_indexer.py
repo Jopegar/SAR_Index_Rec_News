@@ -18,6 +18,8 @@ def indexer(directory, savePath):
 
     for (path, names, fileList) in os.walk(directory):
 
+        fileList.sort()
+
         if not fileList:
             print("There is not such a directory")
 
