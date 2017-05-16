@@ -25,7 +25,6 @@ def indexer(directory, savePath):
             for fileName in fileList:
                 # docID = fileName.split('.')[0]
                 fileName = path + "/" + fileName
-                print(fileName)
                 file = codecs.open(fileName, 'r', 'utf-8')
                 docContent = file.read()
 

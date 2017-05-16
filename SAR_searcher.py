@@ -1,6 +1,7 @@
 import sys
 import pickle as loader
 import re
+import codecs
 
 termSearch = []
 dictTerms = {}
@@ -8,7 +9,6 @@ dictTitle = {}
 dictCategory = {}
 dictDate = {}
 dictNews = {}
-dictDocs = {}
 
 
 def find_index(index_dir):
@@ -107,23 +107,20 @@ def searcher(query):
     query = query.split()
     condQuery = ["AND", "OR", "NOT"]
 
-    # we are going to process the advanced and the normal query first
     for partQuery in query:
 
-        # Check if the word we are precessing is an "AND", "OR" os "NOT". If it isn't, we continue
         if partQuery not in condQuery:
             currentIndex = query.index(partQuery)
+            partQuery = partQuery.lower()
 
-            # Check if it is a term with advanced searching
             if ":" in partQuery:
                 header = partQuery.split(":")[0]
-                term = partQuery.split(":")[1].lower()
+                term = partQuery.split(":")[1]
 
-                # we check if term is alphabetical, if it is, we process it depends on the header
                 if term.isalpha():
                     if "headline" in header:
                         if term in dictTitle:
-                            query[currentIndex] = dictTitle[term]
+                            query[currentIndex] = getNewsID(dictTitle[term])
                         else:
                             print("The term %s is not in any title.\n" % term)
                             return
@@ -137,17 +134,12 @@ def searcher(query):
 
                     else:
                         if term in dictTerms:
-                            newsTerm = []
-                            for newID, value in dictTerms[term].items():
-                                newsTerm.append(newID)
-                            # list(dictTerms[partQuery].keys()) todo
-                            query[currentIndex] = newsTerm
+                            query[currentIndex] = getNewsID(dictTerms[partQuery])
                             termSearch.append(term)
                         else:
                             print("The term %s is not in a news.\n" % term)
                             return
 
-                # if the term is not alphabetical, could be a number, so could be a date
                 else:
                     if "date" in header:
                         if term in dictDate:
@@ -155,19 +147,14 @@ def searcher(query):
                         else:
                             print("In the date %s there are any news.\n" % term)
                             return
-                    # if this not alphabetical term is not in the dictionary of dates
                     else:
                         print("The word " + term + " is not valid for the search. Please just alphanumerics terms\n")
                         return
 
             else:
                 if partQuery in dictTerms:
-                    newsTerm = []
-                    for newID, value in dictTerms[partQuery].items():
-                        newsTerm.append(newID)
-                    query[currentIndex] = newsTerm
+                    query[currentIndex] = getNewsID(dictTerms[partQuery])
                     termSearch.append(partQuery)
-                    # list(dictTerms[partQuery].keys()) todo
                 else:
                     print("The term %s is not in a news.\n" % partQuery)
                     return
@@ -202,63 +189,98 @@ def searcher(query):
             query[0] = AOrBSearch(query[0], query[2])
             del query[2]
             del query[1]
-
+    if not query[0]:
+        print("There is any result to your query")
+        return
     printResult(query[0])
 
 
-def printResult(resultNews):
-    print(len(resultNews))
+def getNewsID(postInver):
+    newsTerm = []
 
+    for newsPosting in postInver:
+        newsTerm.append(newsPosting[0])
+
+    return newsTerm
+
+
+def getTitle(newsID):
+    fileName = dictNews[newsID][0]
+    posNews = dictNews[newsID][1]
+
+    try:
+        file = codecs.open(fileName, 'r', 'utf-8')
+    except FileNotFoundError:
+        print("There is not such a file %s" % fileName)
+        exit(0)
+
+    docContent = file.read()
+
+    newsList = docContent.split('</DOC>')
+
+    title = newsList[posNews].split('<TITLE>')[1].split('</TITLE>')[0]
+
+    file.close()
+
+    return title
+
+
+def getText(newsID):
+    fileName = dictNews[newsID][0]
+    posNews = dictNews[newsID][1]
+
+    try:
+        file = codecs.open(fileName, 'r', 'utf-8')
+    except FileNotFoundError:
+        print("There is not such a file %s" % fileName)
+        exit(0)
+
+    docContent = file.read()
+
+    newsList = docContent.split('</DOC>')
+
+    text = newsList[posNews].split('<TEXT>')[1].split('</TEXT>')[0]
+
+    file.close()
+
+    return text
+
+
+def printResult(resultNews):
     if len(resultNews) < 3:
         for newsID in resultNews:
-            resultDoc = dictNews[newsID]
-            docID = resultDoc[0]
-            posNew = resultDoc[1]
-
-            newsDoc = dictDocs[docID]
-            newsContent = newsDoc[posNew]
-
-            title = newsContent['headline']
-            text = newsContent['text']
+            title = getTitle(newsID)
+            text = getText(newsID)
 
             print(title + '\n' + text + '\n')
 
     elif len(resultNews) < 6:
         for newsID in resultNews:
-            resultDoc = dictNews[newsID]
-            docID = resultDoc[0]
-            posNew = resultDoc[1]
+            title = getTitle(newsID)
+            text = getText(newsID)
 
-            newsDoc = dictDocs[docID]
-            newsContent = newsDoc[posNew]
-
-            title = newsContent['headline']
-            text = newsContent['text']
+            print(title + '\n')
 
             text = re.findall("\w+", text)
 
             if len(termSearch) > 0:
                 for term in termSearch:
-                    dictResult = dictTerms[term]
-                    positionTerm = dictResult[newsID]
+                    postResult = dictTerms[term]
 
-                    print(title + '\n')
+                    for postInver in postResult:
+                        if newsID in postInver[0]:
+                            positionTerm = postInver[1]
+                            continue
 
                     for position in positionTerm:
                         print(" ".join(text[max(0, position - 25):min(position + 25, len(text) - 1)]) + "\n\n")
 
     else:
         for newsID in resultNews:
-            resultDoc = dictNews[newsID]
-            docID = resultDoc[0]
-            posNew = resultDoc[1]
-
-            newsDoc = dictDocs[docID]
-            newsContent = newsDoc[posNew]
-
-            title = newsContent['headline']
+            title = getTitle(newsID)
 
             print(title + '\n')
+
     print(len(resultNews))
 
 
@@ -272,7 +294,7 @@ else:
         dictNews = index[0]
         dictTerms = index[1]
         dictTitle = index[2]
-        dictCategory = index[2]
+        dictCategory = index[3]
         dictDate = index[4]
 
     query = "begin"
@@ -288,4 +310,5 @@ else:
         elif '+exit+' in query:
             exit(0)
         else:
+            print("\n")
             searcher(query)

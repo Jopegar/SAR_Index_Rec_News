@@ -16,14 +16,36 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/SAR_Index_Rec_News$SAR_indexer.coverage" NAME="SAR_indexer Coverage Results" MODIFIED="1494006689261" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="SAR_indexer.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="662">
+                    <caret line="99" column="94" lean-forward="false" selection-start-line="99" selection-start-column="94" selection-end-line="99" selection-end-column="94" />
+                    <folding>
+                      <element signature="e#0#10#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="SAR_searcher.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="776">
-              <caret line="267" column="35" lean-forward="true" selection-start-line="267" selection-start-column="35" selection-end-line="267" selection-end-column="35" />
+            <state relative-caret-position="-4573">
+              <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -31,14 +53,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SAR_indexer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
+      <file leaf-file-name="19940101.sgml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mini_enero/19940101.sgml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="186405">
+              <caret line="10965" column="6" lean-forward="true" selection-start-line="10965" selection-start-column="6" selection-end-line="10965" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -102,8 +122,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -397,13 +417,20 @@
       <option name="project" value="LOCAL" />
       <updated>1494888767187</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher (II)">
+      <created>1494889043565</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1494889043565</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10394456" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10501066" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23510292" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -440,13 +467,34 @@
     <MESSAGE value="END OF THE PROYECT" />
     <MESSAGE value="Corrected some errors" />
     <MESSAGE value="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher" />
-    <option name="LAST_COMMIT_MESSAGE" value="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher" />
+    <MESSAGE value="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher (II)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Eliminate dictDocs and modify dictTitle and dictTerms for a dictionary where key -&gt; term and value -&gt; [[newID1,[positions_in_newID1]],[[newID2,[positions_in_newID2]], ...]&#10;we have to modify SAR_searcher (II)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1173">
+          <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -736,10 +784,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mini_enero/19940101.sgml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186405">
+          <caret line="10965" column="6" lean-forward="true" selection-start-line="10965" selection-start-column="6" selection-end-line="10965" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SAR_indexer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="74" column="61" lean-forward="true" selection-start-line="74" selection-start-column="61" selection-end-line="74" selection-end-column="61" />
+        <state relative-caret-position="662">
+          <caret line="99" column="94" lean-forward="false" selection-start-line="99" selection-start-column="94" selection-end-line="99" selection-end-column="94" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
@@ -748,8 +804,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SAR_searcher.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="776">
-          <caret line="267" column="35" lean-forward="true" selection-start-line="267" selection-start-column="35" selection-end-line="267" selection-end-column="35" />
+        <state relative-caret-position="-4573">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
