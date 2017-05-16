@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="90860fa2-1437-4eb6-ad9f-148220ed8b43" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SAR_indexer.py" afterPath="$PROJECT_DIR$/SAR_indexer.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -410,7 +409,14 @@
       <option name="project" value="LOCAL" />
       <updated>1494897467467</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="ALL ENDED (Modified SAR_searcher.py to work with the new structure of the index)">
+      <created>1494958158402</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1494958158402</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
